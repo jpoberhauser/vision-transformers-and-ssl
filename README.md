@@ -1,178 +1,138 @@
-# Intro to Visual-Language Modeling
+# Vision Transformers & Self-Supervised Learning
 
-I couldn't find a good, hands-on course on this topic. This set of notebooks and exercises are a walkthrough, starting from vanilla ViT, going through image-text contrastive learning, and ending with a research project to bring everything together. 
+Transformer architectures for vision, from scratch ViT through modern self-supervised representation learning. A hands-on course in three modules:
 
-* Every module has the exercises I found useful to understand the models, along with training scripts on a small dataset that can easily run on a small GPU. 
+1. **Foundations** — implement ViT from scratch, compare against Swin / CoAtNet / DeiT, build masked image modeling (MAE).
+2. **Transformer-based perception** — DETR family for detection, segmentation, and tracking.
+3. **Image & video SSL** — contrastive methods, masked image modeling, DINOv2, V-JEPA, evaluation harness, and applied projects.
 
-* Every module has an exercise notebook that walks through steps and has place-holders for your own implementation of the code. My solutions are also included if we need to reference. 
+Each module has runnable notebooks (small enough to train on a single GPU) and exercise notebooks with placeholders for your own implementation. Solutions are included alongside.
 
-* In the first module I walk through vanilla ViT from scratch, add some tricks like window-shifted attention, and work on self-supervised masked image modeling. Everything from scratch, and then we dig into other implementations from `timm` and `transformers` to see how the pros do it. 
+> Companion repo: **[intro-to-vlms](../vision_language_course)** picks up where this leaves off — from CLIP through modern VLMs, alignment, and agentic systems.
 
+---
 
-
-
-
-## Module 1 Advanced Vision Transformer Foundations
+## Module 1 — Transformer Foundations
 
 | **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
 | --- | --- | --- | --- | --- | --- |
-| X | Week 1 | Re-implement basic ViT from scratch (no framework) | Code | ViT paper (Dosovitskiy), lucidrains' vit-pytorch [https://arxiv.org/abs/2010.11929] | [001_vit_from_scratch.ipynb](module1_vision_transformer_foundations/001_vit_from_scratch.ipynb) |
-| X | Week 2 | Compare ViT with Swin, CoAtNet, DeiT + deep dive on multi-head self-attention in spatial domain | Theory/Compare | Papers: Swin, DeiT, CoAtNet; timm repo; "Attention Is All You Need", Annotated Transformer | [002_compare_ViTs.ipynb](module1_vision_transformer_foundations/002_compare_ViTs.ipynb), [002_CoAtNet.ipynb](module1_vision_transformer_foundations/002_CoAtNet.ipynb) |
-| X | Week 3 | Implement masked image modeling (MIM) pretraining | Code | MAE (He et al.), SimMIM | [003_MAE.ipynb](module1_vision_transformer_foundations/003_MAE.ipynb) |
+| X | Week 1 | Re-implement basic ViT from scratch (no framework) | Code | ViT paper (Dosovitskiy), lucidrains' vit-pytorch [https://arxiv.org/abs/2010.11929] | [001_vit_from_scratch.ipynb](module1_transformer_foundations/001_vit_from_scratch.ipynb) |
+| X | Week 2 | Compare ViT with Swin, CoAtNet, DeiT + deep dive on multi-head self-attention in spatial domain | Theory/Compare | Papers: Swin, DeiT, CoAtNet; timm repo; "Attention Is All You Need", Annotated Transformer | [002_compare_ViTs.ipynb](module1_transformer_foundations/002_compare_ViTs.ipynb), [002_CoAtNet.ipynb](module1_transformer_foundations/002_CoAtNet.ipynb) |
+| X | Week 3 | Implement masked image modeling (MIM) pretraining | Code | MAE (He et al.), SimMIM | [003_MAE.ipynb](module1_transformer_foundations/003_MAE.ipynb) |
 | X | Week 4 | Visualize attention maps, frozen feature extraction, linear probing. Compare DINOv2 vs CLIP attention. | Analysis/Code | DINOv2, DINO, CLIP papers | |
 
+---
 
+## Module 2 — Transformers for Detection, Segmentation & Tracking
 
-## Module 2 Vision + Language Pretraining & Integration
+| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
+| --- | --- | --- | --- | --- |
+| 🔲 | Week 1 | DETR — build a Transformer detector from scratch | Code | DETR paper (Carion et al.), [facebookresearch/detr](https://github.com/facebookresearch/detr) |
+| 🔲 | Week 2 | Building on top of DETR — LW-DETR, RF-DETR | Code/Compare | LW-DETR, RF-DETR papers |
+| 🔲 | Week 3 | Segmentation and pose — MaskDINO (segmentation), DETR-Pose (pose estimation) | Code | MaskDINO, DETR-Pose papers |
+| 🔲 | Week 4 | Multi-object tracking — MOTR, MOTRv2, TrackFormer, SAM | Code | MOTR, MOTRv2, TrackFormer, SAM papers |
+
+---
+
+## Module 3 — Self-Supervised Image & Video Representation Learning
+
+* Goal: build up from the *theory* of what makes a good representation, work through every major family of image SSL, move into video SSL, and finish with evaluation + applied projects on real domains.
+* Anchor question for the whole module: **what does a good representation look like, and how do we know we've learned one without labels?**
+
+### Phase 1 — Theory & Foundations of Representation Learning
 
 | **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
 | --- | --- | --- | --- | --- | --- |
-| X | Week 1 | Build a text encoder from scratch — tokenization, text transformer, sentence embeddings | Code | "Attention Is All You Need", HuggingFace tokenizers, Annotated Transformer | |
-| X | Week 2 | Reproduce CLIP (image-text contrastive training) | Code | OpenCLIP repo, CLIP paper | |
-| X | Week 3 | Implement full SigLip from scratch. Fine-tune our SigLip. Implement PaliGemma from scratch following tutorial video| Model Dev | SigLip paper, [Umar Jamil's tutorial](https://www.youtube.com/watch?v=vAmKB7iPkWw) | |
-| X | Week 4 | Fine-tune pretrained Molmo2 model on niche domain | Fine-tuning | Molmo2 repo, visual instruction tuning | |
-| 🔲 | Week 5 | Look into positional embeddings in vision-language transformers | Theory | "Sinusoidal Encoding Explained", Flamingo paper | |
-| 🔲 | Week 6 | Evaluate model on retrieval/captioning metrics + ablate cross-attention | Eval/Research | pycocoevalcap, Recall@K, Flamingo, BLIP2, LLaVA | |
+| ◐ | Week 1 | Representation learning theory — explanatory factors, smoothness, invariance/equivariance, disentanglement, why SSL works at all | Theory | Bengio "Representation Learning: A Review and New Perspectives" (2013), LeCun's "Cake" / EBM-SSL talks | [intro_to_representation_learning.ipynb](module3_ssl_image_and_video/intro_to_representation_learning.ipynb) |
+| 🔲 | Week 2 | Information-theoretic view — mutual information, InfoNCE bound, information bottleneck, why MI bounds are loose in practice | Theory | "On Mutual Information Maximization for Representation Learning" (Tschannen et al.), InfoNCE (Oord et al.), "On Variational Bounds of Mutual Information" (Poole et al.) | |
+| 🔲 | Week 3 | Pretext-task era — rotation prediction, jigsaw puzzles, colorization, context prediction. Implement one from scratch as a baseline | Code/Theory | Gidaris (rotation), Noroozi (jigsaw), Zhang (colorization), Doersch (context) | |
 
-### Deep dive on VLM Benchmarks
+### Phase 2 — Contrastive & Joint-Embedding Image SSL
 
-Key benchmarks to know when evaluating vision-language models:
+| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
+| --- | --- | --- | --- | --- | --- |
+| 🔲 | Week 4 | Implement SimCLR from scratch — augmentation pipeline, projection head, NT-Xent loss. Train on CIFAR-10 / TinyImageNet on a single GPU | Code | SimCLR paper, [google-research/simclr](https://github.com/google-research/simclr), [lightly-ai/lightly](https://github.com/lightly-ai/lightly) | |
+| 🔲 | Week 5 | MoCo v1→v2→v3 — momentum encoder + queue, then ViT backbone. Compare against SimCLR on the same data | Code/Compare | MoCo papers, [facebookresearch/moco](https://github.com/facebookresearch/moco), [facebookresearch/moco-v3](https://github.com/facebookresearch/moco-v3) | |
+| 🔲 | Week 6 | Non-contrastive methods — BYOL (predictor + stop-grad), SwAV (clustering), Barlow Twins (cross-corr), VICReg (var/inv/cov). Understand *why* no negatives still works | Theory/Code | BYOL, SwAV, Barlow Twins, VICReg papers; [vturrisi/solo-learn](https://github.com/vturrisi/solo-learn) | |
+| 🔲 | Week 7 | Read "Understanding self-supervised learning dynamics without contrastive pairs" (Tian et al.) + the collapse-prevention literature | Theory | Tian et al. 2021, "Towards the Generalization of Contrastive SSL" (Wang & Isola), alignment & uniformity paper | |
 
-| **Benchmark** | **What it measures** | **Task type** |
+### Phase 3 — Masked Image Modeling & Distillation-based SSL
+
+| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
+| --- | --- | --- | --- | --- | --- |
+| 🔲 | Week 8 | Re-visit MAE (from Module 1), compare against SimMIM, BEiT, iBOT, data2vec. Pixel target vs feature target vs discrete-token target | Theory/Compare | MAE, SimMIM, BEiT, iBOT, data2vec papers; [003_MAE.ipynb](module1_transformer_foundations/003_MAE.ipynb) | |
+| 🔲 | Week 9 | DINO & DINOv2 — student/teacher with EMA, centering, sharpening, multi-crop. Implement DINO from scratch on a small dataset | Code | DINO, DINOv2 papers; [facebookresearch/dino](https://github.com/facebookresearch/dino), [facebookresearch/dinov2](https://github.com/facebookresearch/dinov2) | |
+| 🔲 | Week 10 | I-JEPA — predicting in *representation space* instead of pixel space. Read paper, run inference, understand why latent prediction beats pixel reconstruction for semantic features | Theory/Code | I-JEPA paper, [facebookresearch/ijepa](https://github.com/facebookresearch/ijepa) | |
+| 🔲 | Week 11 | DINOv3 + Franca (fully open-source DINOv2-class). Compare DINOv3 register tokens vs DINOv2; reproduce a small Franca run | Code/Compare | DINOv3, [valeoai/Franca](https://github.com/valeoai/Franca), "Vision Transformers Need Registers" (Darcet et al.) | |
+
+### Phase 4 — Video Self-Supervised Learning
+
+| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
+| --- | --- | --- | --- | --- | --- |
+| 🔲 | Week 12 | VideoMAE / VideoMAEv2 — tube masking, why video needs *higher* masking ratios than images, dual masking. Run inference + small finetune on Kinetics subset | Code | VideoMAE, VideoMAEv2 papers; [MCG-NJU/VideoMAE](https://github.com/MCG-NJU/VideoMAE) | |
+| X | Week 13 | V-JEPA & V-JEPA 2.1 — life-of-an-input walkthrough: 3D patch embed, multi-level deep supervision, mask-token predictor, EMA target | Code/Theory | V-JEPA, V-JEPA 2 papers; [facebookresearch/jepa](https://github.com/facebookresearch/jepa) | [v-jepa2_1.ipynb](module3_ssl_image_and_video/v-jepa2_1.ipynb) |
+| 🔲 | Week 14 | Temporal-coherence & motion-aware SSL — CVRL, TimeContrast, MaskedFeat, ST-MAE. Why slow-features and temporal-equivariance priors matter | Theory/Compare | CVRL, MaskedFeat, ST-MAE, "Slow Feature Analysis" (Wiskott & Sejnowski) | |
+| 🔲 | Week 15 | Cross-modal SSL for video — audio-visual (AVID-CMA, MAViL), video-text (VideoCLIP, InternVideo). Discuss CLIP itself as an SSL method | Theory | AVID-CMA, MAViL, VideoCLIP, InternVideo papers | |
+
+### Phase 5 — Evaluation Frameworks for Representation Learning
+
+* How do we actually measure whether a representation is *good*? This phase is its own deliverable — a small `eval/` library you can reuse for the rest of the course.
+
+| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
+| --- | --- | --- | --- | --- | --- |
+| 🔲 | Week 16 | Build a probe harness — linear probe, kNN probe, fine-tune. Apply to a frozen DINOv2 / V-JEPA backbone on CIFAR-100 / iNaturalist / UCF-101 | Code/Eval | DINOv2 eval recipe, [VISSL](https://github.com/facebookresearch/vissl), [lightly benchmarks](https://docs.lightly.ai/self-supervised-learning/getting_started/benchmarks.html) | |
+| 🔲 | Week 17 | Dense / structured evaluation — frozen-features for detection (COCO), segmentation (ADE20k), depth (NYUv2), tracking. The "DINOv2-style" eval suite | Eval | DINOv2 paper §5, "How well do SSL models transfer?" (Ericsson et al.) | |
+| 🔲 | Week 18 | Robustness & OOD probing — ImageNet-A/C/R, ObjectNet, VTAB-1k. Disentanglement metrics (β-VAE, FactorVAE, DCI) on a synthetic dataset | Eval/Theory | VTAB paper, "Challenging Common Assumptions in Disentanglement" (Locatello et al.) | |
+
+#### Deep dive on SSL evaluation benchmarks
+
+| **Benchmark** | **What it measures** | **Modality** |
 | --- | --- | --- |
-| **MMMU** | College-level multi-discipline reasoning over images (charts, diagrams, photos) | VQA / reasoning |
-| **MMBench** | Broad multi-modal understanding — perception, reasoning, OCR | VQA |
-| **SEED-Bench** | Generative comprehension across 12 dimensions (spatial, temporal, etc.) | VQA / multi-choice |
-| **TextVQA** | Reading and reasoning about text within images | OCR + VQA |
-| **DocVQA** | Understanding documents — forms, tables, receipts | Document VQA |
-| **ChartQA** | Answering questions about charts and plots | Chart reasoning |
-| **VQAv2** | Open-ended visual question answering on natural images | VQA (classic) |
-| **GQA** | Compositional reasoning — multi-step spatial questions | VQA / reasoning |
-| **COCO Captions** | Image captioning quality (CIDEr, BLEU, METEOR scores) | Captioning |
-| **Flickr30k / COCO Retrieval** | Image-text retrieval (Recall@1, Recall@5, Recall@10) | Retrieval |
-| **RealWorldQA** | Real-world spatial understanding and reasoning | VQA |
-| **POPE** | Detecting object hallucination — does the model see things that aren't there? | Hallucination |
+| **Linear probe @ ImageNet-1k** | Canonical headline number — is the feature linearly separable for 1k classes? | Image |
+| **kNN @ ImageNet-1k** | Quality of the *raw* embedding geometry without any training on top | Image |
+| **VTAB-1k** | 19 diverse tasks in low-data regime — natural, specialized, structured | Image |
+| **ADE20k / Cityscapes** (frozen features) | Dense semantic features — pixel-level not just image-level | Image (dense) |
+| **COCO detection / instance seg** (frozen) | Localization quality of the frozen backbone | Image (dense) |
+| **NYUv2 depth / NAVI** (frozen) | Geometric features, 3D awareness from 2D pretraining | Image (dense) |
+| **Kinetics-400 / SSv2** (linear / finetune) | Action recognition — Kinetics rewards appearance, SSv2 rewards temporal reasoning | Video |
+| **UCF-101 / HMDB-51** (linear / finetune) | Smaller video benchmarks, common for compute-constrained eval | Video |
+| **EPIC-Kitchens** | Egocentric, long-tail action recognition + anticipation | Video |
+| **ImageNet-A / C / R / Sketch / ObjectNet** | Robustness to natural adversarials, corruptions, renditions, OOD | Image |
+| **DCI / MIG / FactorVAE score** | Disentanglement — does the representation align with true factors of variation? | Synthetic |
 
-* **Retrieval metrics** (Recall@K): given a query, is the correct match in the top K results? Directly relevant to CLIP.
-* **Captioning metrics** (CIDEr, BLEU, METEOR): compare generated captions to human references. Relevant for BLIP/LLaVA.
-* **VQA accuracy**: exact-match or soft-match against ground truth answers.
-* **Hallucination** is a major open problem — models confidently describe objects that aren't in the image. POPE specifically tests for this.
-
-## Module 3 Modern VLMs, Alignment & Agentic Systems
-
-* Now that we've built everything from scratch, this module shifts to: understand production VLM architectures → run inference → fine-tune → synthetic data → alignment → agentic systems 
-
-### Phase 1 — Modern VLM Architectures & Inference
+### Phase 6 — Applied Projects: SSL That Actually Shipped
 
 | **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
 | --- | --- | --- | --- | --- |
-| 🔲 | Week 1 | Deep dive into modern VLM architectures — read LLaVA, InternVL2, Qwen2.5-VL, Flamingo. Understand how vision encoder + connector + LLM backbone fit together | Theory | Raschka's "Understanding Multimodal LLMs", LLaVA, InternVL2, Qwen2.5-VL, Flamingo papers |
-| 🔲 | Week 2 | Fine-Tune and Understand Qwen3.5 and Unsloth| Code | [Qwen2.5-VL](https://unsloth.ai/docs/models/qwen3.5/fine-tune), HuggingFace Transformers |
-| 🔲 | Week 3 | Compare VLM architectures: Qwen-VL vs LLaVA vs Molmo — unified embedding vs cross-attention, connector design, tradeoffs | Theory/Compare | Qwen-VL, LLaVA, Molmo papers + repos |
+| 🔲 | Week 19 | DINOv2-as-backbone project — pick a niche domain (medical, satellite, microscopy, retail) and beat a supervised baseline with frozen DINOv2 features + small head | Project | DINOv2 repo, RetFound (retinal), SatMAE (satellite), [Prov-GigaPath](https://github.com/prov-gigapath/prov-gigapath) (pathology) |
+| 🔲 | Week 20 | Video SSL for embodied AI — read VC-1 ("Where are we in the search for an artificial visual cortex?") and run V-JEPA-2 features on a robotics / video-QA task | Project | VC-1 paper, V-JEPA 2 release, [facebookresearch/eai-vc](https://github.com/facebookresearch/eai-vc) |
+| 🔲 | Week 21 | Capstone — train a small SSL model from scratch on your own domain (≤ 100k unlabeled images or ≤ 1k unlabeled videos), evaluate with the Phase-5 harness, write up what worked | Capstone | All of the above |
 
-### Phase 2 — Fine-Tuning & Image Tokenization
+### Suggested reading / watching
 
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
-| --- | --- | --- | --- | --- |
-| 🔲 | Week 4 | Fine-tune a VLM (Qwen-VL or LLaVA-1.5) with LoRA/QLoRA on a custom domain | Fine-tuning | LLaMA-Factory, Swift, HuggingFace PEFT, bitsandbytes |
-| 🔲 | Week 5 | Explore image tokenization: VQ-VAE, visual tokens in modern VLMs | Theory/Code | VQ-VAE paper, Chameleon, Emu |
-| 🔲 | Week 6 | Ablations on fine-tuned model + build Streamlit dashboard | Experiment/Viz | Torch hooks, wandb, Streamlit, seaborn, t-SNE |
+#### Theory & survey
+- Bengio, Courville, Vincent — **"Representation Learning: A Review and New Perspectives"** (the canonical reference, still worth reading)
+- Yann LeCun — **"A Path Towards Autonomous Machine Intelligence"** (the JEPA / world-model position paper)
+- Ericsson, Gouk, Hospedales — **"How Well Do Self-Supervised Models Transfer?"** (CVPR 2021) — sober empirical comparison
+- Balestriero et al. — **"A Cookbook of Self-Supervised Learning"** (Meta, 2023) — practical recipes and failure modes
 
-### Phase 3 — Data: Curation, Captioning & Synthetic Pipelines
+#### Talks / videos
+- **Yann LeCun — Energy-Based SSL / JEPA** talks (multiple venues, search "LeCun JEPA")
+- **Lucas Beyer — "Vision Transformers"** and **"DINO / DINOv2"** talks
+- **Mathilde Caron** — DINO presentation (original author)
+- **Yannic Kilcher** paper walkthroughs — SimCLR, MoCo, BYOL, DINO, MAE, V-JEPA
+- **Stanford CS231n** lecture on self-supervised learning
+- **MIT 6.S898 Deep Learning** — SSL lectures
 
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
-| --- | --- | --- | --- | --- |
-| 🔲 | Week 7 | Create image-caption dataset (10k+ pairs) + vision prompt QA pairs. Study data curation at scale — LAION, DataComp | Data/Theory | LAION viewer, COCO, local annotations, GPT-based auto-captioning, DataComp papers, "Scaling Data-Constrained Language Models" (Muennighoff et al.) |
-| 🔲 | Week 8 | Learn data mixture & quality research — optimal ratios, data selection | Theory | DoReMi, "Data Selection for LLMs" papers, data mixing laws |
-| 🔲 | Week 9 | Build a synthetic VQA dataset using a VLM as the labeler, fine-tune on it, evaluate | Code/Data | LLM-as-oracle approach, VQA generation pipelines |
+#### Libraries to know
+- **[lightly](https://github.com/lightly-ai/lightly)** — clean PyTorch implementations of every major image SSL method, good for ablations
+- **[solo-learn](https://github.com/vturrisi/solo-learn)** — research-grade SSL training library
+- **[VISSL](https://github.com/facebookresearch/vissl)** — Meta's SSL benchmarking framework (older but still useful)
+- **[mmselfsup](https://github.com/open-mmlab/mmselfsup)** — OpenMMLab's SSL toolbox
 
-### Phase 4 — RL & Alignment for VLMs
-
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
-| --- | --- | --- | --- | --- |
-| 🔲 | Week 10 | RLHF foundations — InstructGPT, practical PPO/DPO tooling | Theory/Code | InstructGPT paper, TRL library (HuggingFace) |
-| 🔲 | Week 11 | Modern alignment methods — DPO, GRPO (DeepSeek-R1), RLCS (GLM-4.1V-Thinking) | Theory | DPO paper, DeepSeek-R1 report, GLM-4.1V-Thinking |
-| 🔲 | Week 12 | VLM-specific RL — RLVR (reinforcement learning from verifiable rewards). Hands-on: run a DPO fine-tune with TRL | Code | TRL, RLVR papers, HuggingFace PEFT |
-
-#### Suggested reading
-
-[Reinforcement Learning (RL) Guide from Unsloth](https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide)
-
-* RL is where and agent learns to make decisions by interacting with an environment and receiving feedback [rewards, penalties].
-* **Action:** What the model generates (an answer to a question)
-* **Reward:** A signal that indicates how good or bad the model's answer is. Dit it follow instructions, does it handle safety?
-* **Environment:** The scenario or task that the model is working on. For example code generation, helpfullness, etc..
-
-* Things to pay attention to: RL, RLVR, PPO, GRPO, RLHF, RF, DPO. 
-
-### Phase 5 — Agentic Systems
-
-* What are agentic systems?
-* A 'normal LLM interaction' is basically you ask a question and it gives back a text answer. 
-* An **agent** is adding actions into a loop. So instead of answering right away the loop can:
-   1. Reason or think about the steps
-   2. Call a tool (code, calculator, use an API, read a file for context)
-   3. observe a result and decide if it makes sense, or if it needs another tool call or more reasoning
-   4. repeat until answer is satisfactory.
-
-* It boils down to think/act/observe/loop
-
-How do agents and VLMS interact? 
-
-* If you give an agent vision capabilities, it now can read markdown and also a pdf to understand a chart for example. It can see a screenshot and understand the layout and feed that into the generation. It can watch a video and understand. 
-* So the VLM becomes the perception 'brain' that an agent can use in its loop. 
-
-
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
-| --- | --- | --- | --- | --- |
-| 🔲 | Week 13 | Study agent foundations — ReAct, Toolformer, AgentBench. Learn tool-use patterns (function calling, structured output) | Theory | ReAct, Toolformer, AgentBench papers, Anthropic API docs |
-| 🔲 | Week 14 | Build a small agent using smolagents or LangGraph with a VLM as perception module | Code | smolagents, LangGraph, Anthropic Claude agent SDK |
-
-### Phase 6 — Large-Scale Pretraining & JAX 
-
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
-| --- | --- | --- | --- | --- |
-| 🔲 | Week 15 | JAX/Flax basics — functional paradigm, jit, vmap, pmap | Code | JAX docs, Flax tutorials |
-| 🔲 | Week 16 | Scaling & systems papers — Chinchilla, LLM.int8(), FlashAttention | Theory | Chinchilla, LLM.int8(), FlashAttention papers |
-| 🔲 | Week 17 | Distributed pretraining concepts — Megatron-LM, NeMo | Theory/Code | Megatron-LM, NVIDIA NeMo |
-
-
-### Suggested reading/watching
-
-
-#### [Umar Jamil's Coding a Multimodal Vision Language Model from Scratch](https://www.youtube.com/watch?v=vAmKB7iPkWw)
-- [Part 1: Vision Encoders (notebook)](suggested_reading/multimodal_lm_from_scratch_umar_jamil/part1_vision_encoders.ipynb)
-
-#### [Understanding MultiModal LLMs](https://magazine.sebastianraschka.com/p/understanding-multimodal-llms)
-- [Notes (notebook)](suggested_reading/raschka_understanding_mmllms.ipynb)
-
-#### [How AI Taught Itself to See](https://www.youtube.com/watch?v=oGTasd3cliM)
-- [Notes (notebook)](suggested_reading/teaching_ai_to_see.ipynb)
-
-#### [Attend Before Attention: Efficient and Scalable Video Understanding via Autoregressive Gazing](https://autogaze.github.io/)
-
-
-### Open-source Multi-modal models
-
-We can take a look at the fully open-sourced [Molmo2-Models](https://github.com/allenai/molmo2)
-
-Also, a competitive fully open source vision encoder in (Franca)[https://github.com/valeoai/Franca]
-
-## Optional Module: Building Vision Solutions with Transformers
-
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** | **Solutions** |
-| --- | --- | --- | --- | --- | --- |
-| 🔲 | Week 1 | DETR | Scoping | build a Transformer Detector from scratch | |
-| 🔲 | Week 2 | Building on top of DETR | LW-DETR, RF-DETR |
-| 🔲 | Week 3 | Segmentation and Pose | MaskDino (segmentation) DETR-Pose (pose estimation) |
-| 🔲 | Week 4 | MOTracking |MOTR, MOTRv2 , TrackFormer, SAM|
-
-## Optional Module 2: Self-Supervised Video Models
-
-| **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
-| --- | --- | --- | --- | --- |
-| 🔲 | Week 1 | Understand space-time attention — how ViT extends to video | Theory | TimeSformer, ViViT papers |
-| 🔲 | Week 2 | Implement masked video modeling — VideoMAE | Code | VideoMAE paper, extends MAE from Module 1 |
-| 🔲 | Week 3 | Joint embedding approaches — V-JEPA, predict representations not pixels | Theory/Code | V-JEPA (Meta), BYOL, VICReg |
-| 🔲 | Week 4 | Video generation with discrete tokens — VideoGPT, video VQ-VAE | Code | VideoGPT paper, VQ-VAE |
-| 🔲 | Week 5 | Compare approaches: reconstruction vs joint embedding vs generative on downstream tasks | Analysis | Benchmarks: Kinetics, SSv2, UCF101 |
+#### Domain success stories worth studying
+- **RetFound** (Nature 2023) — MAE on 1.6M retinal images, transfers to ocular and systemic disease
+- **SatMAE / Scale-MAE** — masked autoencoders for satellite imagery
+- **Prov-GigaPath** — pathology foundation model
+- **VC-1 / V-JEPA 2** — embodied / robotics
+- **DINOv2 + SAM** — segmentation pipelines built on frozen SSL features
