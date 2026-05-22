@@ -27,9 +27,9 @@ Each module has runnable notebooks (small enough to train on a single GPU) and e
 
 | **Status** | **Week** | **Task / Goal** | **Category** | **Resources** |
 | --- | --- | --- | --- | --- |
-| 🔲 | Week 1 | DETR — build a Transformer detector from scratch | Code | DETR paper (Carion et al.), [facebookresearch/detr](https://github.com/facebookresearch/detr) |
+| X | Week 1 | DETR — build a Transformer detector from scratch | Code | DETR paper (Carion et al.), [facebookresearch/detr](https://github.com/facebookresearch/detr) |
 | 🔲 | Week 2 | Building on top of DETR — LW-DETR, RF-DETR | Code/Compare | LW-DETR, RF-DETR papers |
-| 🔲 | Week 3 | Segmentation and pose — MaskDINO (segmentation), DETR-Pose (pose estimation) | Code | MaskDINO, DETR-Pose papers |
+| 🔲 | Week 3 | Segmentation and pose — MaskDINO (segmentation), DETR-Pose (pose estimation), Extend `vanilla_detr.py` for segmentation| Code | MaskDINO, DETR-Pose papers |
 | 🔲 | Week 4 | Multi-object tracking — MOTR, MOTRv2, TrackFormer, SAM | Code | MOTR, MOTRv2, TrackFormer, SAM papers |
 
 ---
