@@ -1,0 +1,11 @@
+__pycache__/
+data/
+.vscode/
+.DS_Store
+
+# Quarto
+/_site/
+/.quarto/
+
+
+**/*.quarto_ipynb

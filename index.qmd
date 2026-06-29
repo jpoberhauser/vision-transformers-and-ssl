@@ -1,0 +1,29 @@
+---
+title: "Vision Transformers & Self-Supervised Learning"
+---
+
+Transformer architectures for vision, from scratch ViT through modern self-supervised representation learning. A hands-on course in three modules:
+
+1. **Foundations** — implement ViT from scratch, compare against Swin / CoAtNet / DeiT, build masked image modeling (MAE).
+2. **Transformer-based perception** — DETR family for detection, segmentation, and tracking.
+3. **Image & video SSL** — contrastive methods, masked image modeling, DINOv2, V-JEPA, evaluation harness, and applied projects.
+
+Each module has runnable notebooks (small enough to train on a single GPU) and exercise notebooks with placeholders for your own implementation. Solutions are included alongside.
+
+> Companion repo: **[intro-to-vlms](https://github.com/jpoberhauser/vision_language_course)** picks up where this leaves off — from CLIP through modern VLMs, alignment, and agentic systems.
+
+## How to use this site
+
+- Use the left sidebar to navigate the three modules.
+- Every page is a Jupyter notebook — click **"</> Code"** or **"Edit this page"** at the top-right to view the source on GitHub.
+- To run a notebook yourself, clone the repo and open it in Jupyter:
+
+```bash
+git clone https://github.com/jpoberhauser/vision-transformers-and-ssl.git
+cd vision-transformers-and-ssl
+jupyter lab
+```
+
+## Source
+
+Everything in this site is generated from the [GitHub repo](https://github.com/jpoberhauser/vision-transformers-and-ssl). See the README there for the full module-by-module table with paper references and status.
