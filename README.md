@@ -1,4 +1,4 @@
-****# Vision Transformers & Self-Supervised Learning
+**** Vision Transformers & Self-Supervised Learning
 
 Transformer architectures for vision, from scratch ViT through modern self-supervised representation learning. A hands-on course in three modules:
 
